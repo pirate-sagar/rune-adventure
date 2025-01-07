@@ -1,24 +1,19 @@
-export const keys = {
-  w: { pressed: false },
-  a: { pressed: false },
-  s: { pressed: false },
-  d: { pressed: false }
-}
+import { keys } from '$lib/store/keys.svelte'
 
 if (typeof window !== 'undefined') {
   window.addEventListener('keydown', (event) => {
     switch (event.key) {
       case 'w':
-        keys.w.pressed = true
+        keys.keys.w.pressed = true
         break
       case 'a':
-        keys.a.pressed = true
+        keys.keys.a.pressed = true
         break
       case 's':
-        keys.s.pressed = true
+        keys.keys.s.pressed = true
         break
       case 'd':
-        keys.d.pressed = true
+        keys.keys.d.pressed = true
         break
 
       case ' ':
@@ -31,16 +26,16 @@ if (typeof window !== 'undefined') {
   window.addEventListener('keyup', (event) => {
     switch (event.key) {
       case 'w':
-        keys.w.pressed = false
+        keys.keys.w.pressed = false
         break
       case 'a':
-        keys.a.pressed = false
+        keys.keys.a.pressed = false
         break
       case 's':
-        keys.s.pressed = false
+        keys.keys.s.pressed = false
         break
       case 'd':
-        keys.d.pressed = false
+        keys.keys.d.pressed = false
         break
     }
   })

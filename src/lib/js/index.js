@@ -24,6 +24,7 @@ import { Monster } from '$lib/classes/Monster'
 import { Heart } from '$lib/classes/Heart'
 import { Sprite } from '$lib/classes/Sprite'
 import { CollisionBlock } from '$lib/classes/CollisionBlock'
+import { keys } from '$lib/store/keys.svelte'
 
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
@@ -247,20 +248,7 @@ const monsters = [
   }),
 ]
 
-const keys = {
-  w: {
-    pressed: false,
-  },
-  a: {
-    pressed: false,
-  },
-  s: {
-    pressed: false,
-  },
-  d: {
-    pressed: false,
-  },
-}
+
 
 let lastTime = performance.now()
 let frontRendersCanvas
@@ -314,7 +302,7 @@ function animate(backgroundCanvas) {
   }
 
   // Update player position
-  player.handleInput(keys)
+  player.handleInput(keys.keys)
   player.update(deltaTime, collisionBlocks)
 
   const horizontalScrollDistance = Math.min(
