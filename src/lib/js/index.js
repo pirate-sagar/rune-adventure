@@ -19,7 +19,7 @@ import { l_Front_Renders } from '$lib/data/l_Front_Renders'
 //js
 import { loadImage } from '$lib/js/utils'
 //classes
-import { Player } from '$lib/classes/Player'
+import { player } from '$lib/store/player.svelte'
 import { Monster } from '$lib/classes/Monster'
 import { Heart } from '$lib/classes/Heart'
 import { Sprite } from '$lib/classes/Sprite'
@@ -165,12 +165,8 @@ const renderStaticLayers = async (layersData) => {
 }
 // END - Tile setup
 
-// Change xy coordinates to move player's default position
-const player = new Player({
-  x: 100,
-  y: 100,
-  size: 15,
-})
+// Change xy coordinates to move player.player's default position
+
 
 const monsterSprites = {
   walkDown: {
@@ -301,17 +297,17 @@ function animate(backgroundCanvas) {
     elapsedTime = 0
   }
 
-  // Update player position
-  player.handleInput(keys.keys)
-  player.update(deltaTime, collisionBlocks)
+  // Update player.player position
+  player.player.handleInput(keys)
+  player.player.update(deltaTime, collisionBlocks)
 
   const horizontalScrollDistance = Math.min(
-    Math.max(0, player.center.x - VIEWPORT_CENTER_X),
+    Math.max(0, player.player.center.x - VIEWPORT_CENTER_X),
     MAX_SCROLL_X
   )
 
   const verticalScrollDistance = Math.min(
-    Math.max(0, player.center.y - VIEWPORT_CENTER_Y),
+    Math.max(0, player.player.center.y - VIEWPORT_CENTER_Y),
     MAX_SCROLL_Y
   )
 
@@ -321,7 +317,7 @@ function animate(backgroundCanvas) {
   c.translate(-horizontalScrollDistance, -verticalScrollDistance)
   c.clearRect(0, 0, canvas.width, canvas.height)
   c.drawImage(backgroundCanvas, 0, 0)
-  player.draw(c)
+  player.player.draw(c)
 
   // render out our monsters
   for (let i = monsters.length - 1; i >= 0; i--) {
@@ -331,15 +327,15 @@ function animate(backgroundCanvas) {
 
     // Detect for collision
     if (
-      player.attackBox.x + player.attackBox.width >= monster.x &&
-      player.attackBox.x <= monster.x + monster.width &&
-      player.attackBox.y + player.attackBox.height >= monster.y &&
-      player.attackBox.y <= monster.y + monster.height &&
-      player.isAttacking &&
-      !player.hasHitEnemy
+      player.player.attackBox.x + player.player.attackBox.width >= monster.x &&
+      player.player.attackBox.x <= monster.x + monster.width &&
+      player.player.attackBox.y + player.player.attackBox.height >= monster.y &&
+      player.player.attackBox.y <= monster.y + monster.height &&
+      player.player.isAttacking &&
+      !player.player.hasHitEnemy
     ) {
       monster.receiveHit()
-      player.hasHitEnemy = true
+      player.player.hasHitEnemy = true
 
       if (monster.health <= 0) {
         monsters.splice(i, 1)
@@ -347,13 +343,13 @@ function animate(backgroundCanvas) {
     }
 
     if (
-      player.x + player.width >= monster.x &&
-      player.x <= monster.x + monster.width &&
-      player.y + player.height >= monster.y &&
-      player.y <= monster.y + monster.height &&
-      !player.isInvincible
+      player.player.x + player.player.width >= monster.x &&
+      player.player.x <= monster.x + monster.width &&
+      player.player.y + player.player.height >= monster.y &&
+      player.player.y <= monster.y + monster.height &&
+      !player.player.isInvincible
     ) {
-      player.receiveHit()
+      player.player.receiveHit()
 
       const filledHearts = hearts.filter((heart) => heart.currentFrame === 4)
 

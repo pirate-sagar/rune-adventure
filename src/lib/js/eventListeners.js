@@ -1,24 +1,24 @@
 import { keys } from '$lib/store/keys.svelte'
-
+import { player } from '$lib/store/player.svelte'
 if (typeof window !== 'undefined') {
   window.addEventListener('keydown', (event) => {
+    console.log(event.key)
     switch (event.key) {
       case 'w':
-        keys.keys.w.pressed = true
+        keys.w.pressed = true
         break
       case 'a':
-        keys.keys.a.pressed = true
+        keys.a.pressed = true
         break
       case 's':
-        keys.keys.s.pressed = true
+        keys.s.pressed = true
         break
       case 'd':
-        keys.keys.d.pressed = true
+        keys.d.pressed = true
         break
-
       case ' ':
         event.preventDefault()
-        player.attack()
+        player.player.attack()
         break
     }
   })
@@ -26,21 +26,20 @@ if (typeof window !== 'undefined') {
   window.addEventListener('keyup', (event) => {
     switch (event.key) {
       case 'w':
-        keys.keys.w.pressed = false
+        keys.w.pressed = false
         break
       case 'a':
-        keys.keys.a.pressed = false
+        keys.a.pressed = false
         break
       case 's':
-        keys.keys.s.pressed = false
+        keys.s.pressed = false
         break
       case 'd':
-        keys.keys.d.pressed = false
+        keys.d.pressed = false
         break
     }
   })
 
-  // On return to game's tab, ensure delta time is reset
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
       lastTime = performance.now()
