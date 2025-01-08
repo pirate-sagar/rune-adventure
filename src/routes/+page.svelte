@@ -30,4 +30,4 @@
 	});
 </script>
 
-<canvas style="image-rendering: pixelated"></canvas>
+<canvas class="canvas h-svh w-svw" style="image-rendering: pixelated"></canvas>
